@@ -353,11 +353,7 @@ def conv_downsample_2d(x, w, k=None, factor=2, gain=1, padding=0, data_format='N
     assert k.w == k.h
 
     # Determine stride.
-    if data_format == 'NCHW':
-        s = [1, 1, factor, factor]
-    else:
-        s = [1, factor, factor, 1]
-
+    s = [1, 1, factor, factor] if data_format == 'NCHW' else [1, factor, factor, 1]
     # Execute.
     pad0 = (k.w - factor + cw) // 2 + padding * factor
     pad1 = (k.w - factor + cw - 1) // 2 + padding * factor

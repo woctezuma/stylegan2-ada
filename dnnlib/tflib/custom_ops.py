@@ -56,7 +56,7 @@ def _get_compute_cap(device):
 
 def _get_cuda_gpu_arch_string():
     gpus = [x for x in device_lib.list_local_devices() if x.device_type == 'GPU']
-    if len(gpus) == 0:
+    if not gpus:
         raise RuntimeError('No GPU devices found')
     (major, minor) = _get_compute_cap(gpus[0])
     return 'sm_%s%s' % (major, minor)
@@ -90,7 +90,7 @@ def _prepare_nvcc_cli(opts):
 #----------------------------------------------------------------------------
 # Main entry point.
 
-_plugin_cache = dict()
+_plugin_cache = {}
 
 def get_plugin(cuda_file, extra_nvcc_options=[]):
     cuda_file_base = os.path.basename(cuda_file)

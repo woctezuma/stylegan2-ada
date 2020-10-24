@@ -237,7 +237,7 @@ class ThreadPool(object):
     def __init__(self, num_threads):
         assert num_threads >= 1
         self.task_queue = Queue.Queue()
-        self.result_queues = dict()
+        self.result_queues = {}
         self.num_threads = num_threads
         for _idx in range(self.num_threads):
             thread = WorkerThread(self.task_queue)
@@ -682,7 +682,15 @@ def create_from_hdf5(tfrecord_dir, hdf5_filename, shuffle):
     print('Loading HDF5 archive from "%s"' % hdf5_filename)
     import h5py # conda install h5py
     with h5py.File(hdf5_filename, 'r') as hdf5_file:
-        hdf5_data = max([value for key, value in hdf5_file.items() if key.startswith('data')], key=lambda lod: lod.shape[3])
+        hdf5_data = max(
+            (
+                value
+                for key, value in hdf5_file.items()
+                if key.startswith('data')
+            ),
+            key=lambda lod: lod.shape[3],
+        )
+
         with TFRecordExporter(tfrecord_dir, hdf5_data.shape[0]) as tfr:
             order = tfr.choose_shuffled_order() if shuffle else np.arange(hdf5_data.shape[0])
             for idx in range(order.size):
@@ -839,7 +847,7 @@ def extract_brecahad_crops(brecahad_dir, output_dir, cropsize=256):
         512: { 'overlap': 0.5 }
     }
     if cropsize not in params:
-        print('--cropsize must be one of:', ', '.join(str(x) for x in params.keys()))
+        print('--cropsize must be one of:', ', '.join(str(x) for x in params))
         sys.exit(1)
 
     os.makedirs(output_dir, exist_ok=True)

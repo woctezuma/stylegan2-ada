@@ -175,7 +175,7 @@ class Optimizer:
                     grad = [tf.cast(g, tf.float32) for g in grad]
 
                     # Sum within the device.
-                    if len(grad) == 0:
+                    if not grad:
                         grad = tf.zeros(var.shape)  # No gradients => zero.
                     elif len(grad) == 1:
                         grad = grad[0]              # Single gradient => use as is.

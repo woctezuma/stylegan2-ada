@@ -80,7 +80,7 @@ def _fused_bias_act_ref(x, b, axis, act, alpha, gain, clamp):
     x = tf.convert_to_tensor(x)
     b = tf.convert_to_tensor(b) if b is not None else tf.constant([], dtype=x.dtype)
     act_spec = activation_funcs[act]
-    assert b.shape.rank == 1 and (b.shape[0] == 0 or b.shape[0] == x.shape[axis])
+    assert b.shape.rank == 1 and b.shape[0] in [0, x.shape[axis]]
     assert b.shape[0] == 0 or 0 <= axis < x.shape.rank
     if alpha is None:
         alpha = act_spec.def_alpha

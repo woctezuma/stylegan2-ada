@@ -33,7 +33,7 @@ class TFRecordDataset:
         buffer_mb       = 256,      # Read buffer size (megabytes).
         num_threads     = 2,        # Number of concurrent threads.
         _is_validation  = False,
-):
+    ):
         self.tfrecord_dir       = tfrecord_dir
         self.resolution         = None
         self.resolution_log2    = None
@@ -51,9 +51,9 @@ class TFRecordDataset:
         self._tf_minibatch_in   = None
         self._tf_labels_var     = None
         self._tf_labels_dataset = None
-        self._tf_datasets       = dict()
+        self._tf_datasets = {}
         self._tf_iterator       = None
-        self._tf_init_ops       = dict()
+        self._tf_init_ops = {}
         self._tf_minibatch_np   = None
         self._cur_minibatch     = -1
         self._cur_lod           = -1

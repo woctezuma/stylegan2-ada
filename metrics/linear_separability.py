@@ -80,8 +80,8 @@ def mutual_information(p):
         p_x = px[x]
         for y in range(p.shape[1]):
             p_xy = p[x][y]
-            p_y = py[y]
             if p_xy > 0.0:
+                p_y = py[y]
                 result += p_xy * np.log2(p_xy / (p_x * p_y)) # get bits as output
     return result
 
